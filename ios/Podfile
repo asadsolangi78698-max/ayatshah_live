@@ -1,0 +1,39 @@
+# Uncomment this line to define a global platform for your project
+platform :ios, '13.0'
+
+CFG_GENERATED = File.expand_path(File.join('Flutter', 'Generated.xcconfig'), __dir__)
+unless File.exist?(CFG_GENERATED)
+  raise "#{CFG_GENERATED} must exist. If you're running pod install manually, make sure flutter pub get is executed first."
+end
+
+File.foreach(CFG_GENERATED) do |line|
+  matches = line.match(/FLUTTER_ROOT\=(.*)/)
+  if matches
+    Dir.chdir(File.expand_path(matches[1].strip)) do
+      $flutter_root_pods_dir = Dir.pwd
+    end
+  end
+end
+
+require File.expand_path(
+  File.join('packages', 'flutter_tools', 'bin', 'podhelper'),
+  $flutter_root_pods_dir ? $flutter_root_pods_dir : ''
+)
+
+flutter_ios_podfile_setup
+
+target 'Runner' do
+  use_frameworks!
+  use_modular_headers!
+
+  flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+  target 'RunnerTests' do
+    inherit! :search_paths
+  end
+end
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    flutter_additional_ios_build_settings(target)
+  end
+end
