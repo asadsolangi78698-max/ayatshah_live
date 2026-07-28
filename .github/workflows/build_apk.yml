@@ -5,6 +5,10 @@ on:
     branches: [ main ]
   workflow_dispatch: {}
 
+env:
+  JAVA_TOOL_OPTIONS: "-Xmx2048m"
+  GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx2048m"
+
 jobs:
   build:
     runs-on: ubuntu-latest
