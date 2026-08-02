@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_colors.dart';
+import 'package:go_router/go_router.dart';
 
 /// Bottom-nav shell hosting the five primary tabs.
 /// Wired up via GoRouter's StatefulShellRoute in app_router.dart.
