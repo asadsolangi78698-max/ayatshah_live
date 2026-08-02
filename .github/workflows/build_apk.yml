@@ -25,10 +25,13 @@ jobs:
           flutter-version: '3.24.0'
           channel: 'stable'
 
-      - name: Fix gradlew line endings
+      - name: Fix gradlew line endings and wrapper jar
         run: |
           sed -i 's/\r$//' android/gradlew
           chmod +x android/gradlew
+          if [ ! -f android/gradle/wrapper/gradle-wrapper.jar ]; then
+            curl -L -o android/gradle/wrapper/gradle-wrapper.jar https://raw.githubusercontent.com/gradle/gradle/v8.6.0/gradle/wrapper/gradle-wrapper.jar
+          fi
 
       - name: Install dependencies
         run: flutter pub get
